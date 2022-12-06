@@ -1,0 +1,127 @@
+from patches import *
+from wrapper import *
+
+#---------------------------Shape Creation------------------------------#
+
+def circlefromTL(win, tlPoint, radius, colour, outline):
+    centre = centrePoint(tlPoint, radius)
+    circle(win, centre, radius, colour, outline)
+
+
+def circle(win, centre, radius, colour, outline):
+    c = Circle(centre, radius)
+    c.setFill(colour)
+    c.setOutline(outline)
+    c.draw(win)
+    return c
+
+def triangle(win, p1, p2, p3, colour, outline):
+    t = Polygon(p1, p2, p3)
+    t.setFill(colour)
+    t.setOutline(outline)
+    t.draw(win)
+    return t
+
+#-------------------------End of Shape Creation-------------------------#
+
+
+#--------------------------Patchwork Designs----------------------------#
+
+def patchB(win, colour, tlPoint):
+    dimension = 100
+    centre = centrePoint(tlPoint, 50)
+    scale = 30
+    r = rectangle(win,tlPoint,brPoint(tlPoint,dimension,dimension),colour)
+
+def patch7(win, colour, tlOffset):
+    patchSize = 100
+    scale = 20
+    for y in range(0, patchSize, scale):
+        for x in range(0, patchSize, scale):
+            tl = Point(tlOffset.getX() + x, tlOffset.getY() + y)
+            if y == 0 or y == 40 or y == 80:
+                circlefromTL(win, tl, 10, colour, colour)
+            else:
+                circlefromTL(win, tl, 10, "white", colour)
+        
+
+#------------------------End of Patchwork Designs-----------------------#
+
+
+#-------------------------User Interface Section------------------------#
+
+def userColours():
+    inputColours = []
+    colours = ["blue", "orange", "red", "white"]
+    for i in range(3):
+        colours = str(input("Enter a colour: "))
+        inputColours.append(colours)
+    return inputColours
+
+def screenInput():
+    inputScreen = True
+    while inputScreen:
+        inputSize = int(input("Enter the size of the screen (5/7): "))
+        if(inputSize == 5 or inputSize == 7):
+            inputSize *= 100
+            break
+    return inputSize
+
+def colour1(colours):
+    colour1 = str(input("Enter a colour: "))
+    i = False
+    while i:
+        for i in range(3):
+            if colour1 in colours[i]:
+                print("bosh")
+                i = True
+            else:
+                print("mug")
+    return colour1
+
+#----------------------End of User Interface Section--------------------#
+
+def main():
+    screenSize = screenInput()
+    test1 = colour1()
+    # Sort out the colour inputs
+    colours = ["blue", "orange", "red", "white"]
+    dimension = 100
+    win = GraphWin("Test", screenSize, screenSize)
+    
+
+    midPoint = screenSize // 2
+    print(midPoint)
+    for row in range(0, screenSize, 100):
+        for column in range(0, screenSize, 100):
+            tlPoint = Point(row, column)
+            if(column == midPoint - 150 and row < midPoint - 150 or column == midPoint - 250 and row < midPoint - 250):
+                colour = colours[1] # Orange Left Top
+                patch7(win, colour, tlPoint)
+            elif(column == midPoint - 150 and row >= midPoint + 150 or column == midPoint - 250 and row >= midPoint + 250):
+                colour = colours[2] # Red Right Top
+                patch7(win, colour, tlPoint)
+            elif(column == midPoint - 50 and row < midPoint - 50):
+                colour = colours[1] # Orange P Middle
+                patch7(win, colour, tlPoint)
+            elif(column == midPoint - 50 and row > midPoint - 50):
+                colour = colours[2] # Red P Middle
+                patch7(win, colour, tlPoint)
+            elif(column == screenSize - (midPoint - 50) and row < midPoint - 150 or column == midPoint + 150 and row < midPoint - 250):
+                colour = colours[1] # Orange Blank Bottom
+                patchB(win, colour, tlPoint)
+            elif(column == screenSize - (midPoint - 50) and row > midPoint + 50 or column == screenSize - 200 and row == screenSize - 100):
+                colour = colours[2] # Red Blank Bottom
+                patchB(win, colour, tlPoint)
+            elif(column < midPoint - 50):
+                colour = colours[0] # Blue Blank Top
+                patchB(win, colour, tlPoint)
+            else:
+                colour = colours[0]
+                patchF(win, colour, tlPoint)
+
+                # To make more efficient, use nested statements to determine colours
+                # Can be done in 6 statements
+
+    win.getMouse()
+main()
