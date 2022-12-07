@@ -1,7 +1,24 @@
-from patches import *
-from wrapper import *
+from graphics import *
 
 #---------------------------Shape Creation------------------------------#
+
+def brPoint(tlPoint, width, height):
+    x = tlPoint.getX() + width
+    y = tlPoint.getY() + height
+    brPoint = Point(x, y)
+    return brPoint
+
+def centrePoint(tlPoint, radius):
+    x = tlPoint.getX() + radius
+    y = tlPoint.getY() + radius
+    centre = Point(x, y)
+    return centre
+
+def rectangle(win, tlPoint, brPoint, colour):
+    r = Rectangle(tlPoint, brPoint)
+    r.setFill(colour)
+    r.draw(win)
+    return r
 
 def circlefromTL(win, tlPoint, radius, colour, outline):
     centre = centrePoint(tlPoint, radius)
@@ -25,6 +42,16 @@ def triangle(win, p1, p2, p3, colour, outline):
 
 
 #--------------------------Patchwork Designs----------------------------#
+
+def patchF(win, colour, tlPoint):
+    dimension = 100
+    centre = centrePoint(tlPoint, 50)
+    scale = 12
+    r = rectangle(win, tlPoint, brPoint(tlPoint, dimension, dimension), colour)
+    t = Text(centre,"Final")
+    t.setSize(scale)
+    t.setTextColor("black")
+    t.draw(win)
 
 def patchB(win, colour, tlPoint):
     dimension = 100
@@ -63,17 +90,16 @@ def colourInput(colours):
 
         for i in range(len(colours)):
             if userColour == colours[i]:
-                print(colours[i])
                 return userColour
             else:
-                print("not found yet")
+                pass
 
 
 #----------------------End of User Interface Section--------------------#
 
 def main():
     screenSize = screenInput()
-    colours = ["blue", "orange", "red", "white", "green", "purple", "cyan"]
+    colours = ["blue", "orange", "red", "green", "purple", "cyan"]
     userColour1 = colourInput(colours)
     userColour2 = colourInput(colours)
     userColour3 = colourInput(colours)
@@ -89,28 +115,28 @@ def main():
         for column in range(0, screenSize, 100):
             tlPoint = Point(row, column)
             if(column == midPoint - 150 and row < midPoint - 150 or column == midPoint - 250 and row < midPoint - 250):
-                colour = colours[1] # Orange Left Top
+                colour = userColour2 # Orange Left Top
                 patch7(win, colour, tlPoint)
             elif(column == midPoint - 150 and row >= midPoint + 150 or column == midPoint - 250 and row >= midPoint + 250):
-                colour = colours[2] # Red Right Top
+                colour = userColour3 # Red Right Top
                 patch7(win, colour, tlPoint)
             elif(column == midPoint - 50 and row < midPoint - 50):
-                colour = colours[1] # Orange P Middle
+                colour = userColour2 # Orange P Middle
                 patch7(win, colour, tlPoint)
             elif(column == midPoint - 50 and row > midPoint - 50):
-                colour = colours[2] # Red P Middle
+                colour = userColour3 # Red P Middle
                 patch7(win, colour, tlPoint)
             elif(column == screenSize - (midPoint - 50) and row < midPoint - 150 or column == midPoint + 150 and row < midPoint - 250):
-                colour = colours[1] # Orange Blank Bottom
+                colour = userColour2 # Orange Blank Bottom
                 patchB(win, colour, tlPoint)
             elif(column == screenSize - (midPoint - 50) and row > midPoint + 50 or column == screenSize - 200 and row == screenSize - 100):
-                colour = colours[2] # Red Blank Bottom
+                colour = userColour3 # Red Blank Bottom
                 patchB(win, colour, tlPoint)
             elif(column < midPoint - 50):
-                colour = colours[0] # Blue Blank Top
+                colour = userColour1 # Blue Blank Top
                 patchB(win, colour, tlPoint)
             else:
-                colour = colours[0]
+                colour = userColour1
                 patchF(win, colour, tlPoint)
 
                 # To make more efficient, use nested statements to determine colours
