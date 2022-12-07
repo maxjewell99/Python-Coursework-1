@@ -7,7 +7,6 @@ def circlefromTL(win, tlPoint, radius, colour, outline):
     centre = centrePoint(tlPoint, radius)
     circle(win, centre, radius, colour, outline)
 
-
 def circle(win, centre, radius, colour, outline):
     c = Circle(centre, radius)
     c.setFill(colour)
@@ -44,19 +43,10 @@ def patch7(win, colour, tlOffset):
             else:
                 circlefromTL(win, tl, 10, "white", colour)
         
-
 #------------------------End of Patchwork Designs-----------------------#
 
 
 #-------------------------User Interface Section------------------------#
-
-def userColours():
-    inputColours = []
-    colours = ["blue", "orange", "red", "white"]
-    for i in range(3):
-        colours = str(input("Enter a colour: "))
-        inputColours.append(colours)
-    return inputColours
 
 def screenInput():
     inputScreen = True
@@ -67,31 +57,34 @@ def screenInput():
             break
     return inputSize
 
-def colour1(colours):
-    colour1 = str(input("Enter a colour: "))
-    i = False
-    while i:
-        for i in range(3):
-            if colour1 in colours[i]:
-                print("bosh")
-                i = True
+def colourInput(colours):
+    while True:
+        userColour = str(input("Enter a colour: "))
+
+        for i in range(len(colours)):
+            if userColour == colours[i]:
+                print(colours[i])
+                return userColour
             else:
-                print("mug")
-    return colour1
+                print("not found yet")
+
 
 #----------------------End of User Interface Section--------------------#
 
 def main():
     screenSize = screenInput()
-    test1 = colour1()
-    # Sort out the colour inputs
-    colours = ["blue", "orange", "red", "white"]
+    colours = ["blue", "orange", "red", "white", "green", "purple", "cyan"]
+    userColour1 = colourInput(colours)
+    userColour2 = colourInput(colours)
+    userColour3 = colourInput(colours)
+    print(userColour1, userColour2, userColour3)
+
+    
     dimension = 100
     win = GraphWin("Test", screenSize, screenSize)
     
 
     midPoint = screenSize // 2
-    print(midPoint)
     for row in range(0, screenSize, 100):
         for column in range(0, screenSize, 100):
             tlPoint = Point(row, column)
