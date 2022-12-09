@@ -31,12 +31,6 @@ def circle(win, centre, radius, colour, outline):
     c.draw(win)
     return c
 
-def trianglefromTL(win, tlPoint, colour, outline):
-    p1 = tlPoint
-    p2 = Point(tlPoint.getX() + 20, tlPoint.getX() + 10)
-    p3 = Point(p1.getX() + 10, p1.getY() + 10)
-    triangle(win, p1, p2, p3, colour, outline)
-
 def triangle(win, p1, p2, p3, colour, outline):
     t = Polygon(p1, p2, p3)
     t.setFill(colour)
@@ -49,16 +43,6 @@ def triangle(win, p1, p2, p3, colour, outline):
 
 #--------------------------Patchwork Designs----------------------------#
 
-def patchF(win, colour, tlPoint):
-    dimension = 100
-    centre = centrePoint(tlPoint, 50)
-    scale = 12
-    r = rectangle(win, tlPoint, brPoint(tlPoint, dimension, dimension), colour)
-    t = Text(centre,"Final")
-    t.setSize(scale)
-    t.setTextColor("black")
-    t.draw(win)
-
 def patchB(win, colour, tlPoint):
     dimension = 100
     centre = centrePoint(tlPoint, 50)
@@ -66,9 +50,9 @@ def patchB(win, colour, tlPoint):
     r = rectangle(win,tlPoint,brPoint(tlPoint,dimension,dimension),colour)
 
 def patch6(win, colour, tlOffset, dimension):
-    scale = 20
-    for y in range(0, dimension, scale):
-        for x in range(0, dimension, scale):
+    increment = 20
+    for y in range(0, dimension, increment):
+        for x in range(0, dimension, increment):
             tl = Point(tlOffset.getX() + x, tlOffset.getY() + y)
             if y == 0 or y == 40 or y == 80:
                 circlefromTL(win, tl, 10, colour, colour)
@@ -103,7 +87,8 @@ def patch7(win, colour, tlPoint):
             x = tlPoint.getX()
             for yTriangle in range(0, 40, increment):
                 for xTriangle in range(2):
-                    triangle(win, Point(x + repeat + increment, y), Point(x + repeat + increment, y + increment), Point(x + incrementhalf * 3 + repeat, y + incrementhalf), colour, colour)
+                    triangle(win, Point(x + repeat + increment, y), Point(x + repeat + increment, y + increment), 
+                                            Point(x + incrementhalf * 3 + repeat, y + incrementhalf), colour, colour)
                     repeat += 10
                 x += 40
                 repeat = 0
@@ -127,7 +112,6 @@ def screenInput():
 def colourInput(colours):
     while True:
         userColour = str(input("Enter a colour: "))
-
         for i in range(len(colours)):
             if userColour == colours[i]:
                 return userColour
@@ -142,7 +126,7 @@ def main():
     userColour1 = colourInput(colours)
     userColour2 = colourInput(colours)
     userColour3 = colourInput(colours)
-    print("Selected Colours:", userColour1, userColour2, userColour3)
+    print("Selected Colours:", userColour1 + ",", userColour2 + ",", userColour3)
 
     dimension = 100
     win = GraphWin("Test", screenSize, screenSize)
