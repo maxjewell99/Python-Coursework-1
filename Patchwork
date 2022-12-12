@@ -160,5 +160,54 @@ def main():
                 colour = userColour1
                 patch7(win, colour, tlPoint)
 
+
+#------------------------------ Challenge ------------------------------#
+
+    while True:
+        if win.getMouse():  # Requires 2 clicks for selection
+            mouseInput = win.getMouse()
+            getKey = win.getKey()
+            x = 100 * (mouseInput.getX() // 100)
+            y = 100 * (mouseInput.getY() // 100)
+            tlPoint = Point(x, y)
+            if getKey == 'd':
+                if tlPoint.getX() == x and tlPoint.getY() == y:
+                    patchB(win, "white", tlPoint)
+            elif getKey == '1':
+                tlPoint = Point(x, y)
+                patchB(win, userColour1, tlPoint)
+            elif getKey == '2':
+                tlPoint = Point(x, y)
+                patchB(win, userColour2, tlPoint)
+            elif getKey == '3':
+                tlPoint = Point(x, y)
+                patchB(win, userColour3, tlPoint)
+            elif getKey == '4':
+                tlPoint = Point(x, y)
+                patchB(win, "white", tlPoint)
+                patch7(win, userColour1, tlPoint)
+            elif getKey == '5':
+                tlPoint = Point(x, y)
+                patchB(win, "white", tlPoint)
+                patch7(win, userColour2, tlPoint)
+            elif getKey == '6':
+                tlPoint = Point(x, y)
+                patchB(win, "white", tlPoint)
+                patch7(win, userColour3, tlPoint)
+            elif getKey == '7':
+                tlPoint = Point(x, y)
+                patchB(win, "white", tlPoint)
+                patch6(win, userColour1, tlPoint, dimension)
+            elif getKey == '8':
+                tlPoint = Point(x, y)
+                patchB(win, "white", tlPoint)
+                patch6(win, userColour2, tlPoint, dimension)
+            elif getKey == '9':
+                tlPoint = Point(x, y)
+                patchB(win, "white", tlPoint)
+                patch6(win, userColour3, tlPoint, dimension)
+            else:
+                break
+        
     win.getMouse()
 main()
